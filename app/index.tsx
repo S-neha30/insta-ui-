@@ -1,13 +1,13 @@
 import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-  Pressable,
   Alert,
   Image,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 const STORIES = [
@@ -21,15 +21,16 @@ const POSTS = [
   {
     id: "1",
     username: "user_name",
-    caption: "This is a sample caption for the post.",
+    caption: "beautiful nature 1.",
     likes: "1,234 likes",
     time: "2 hours ago",
-    image: "https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp",
+    image:
+      "https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp",
   },
   {
     id: "2",
     username: "another_user",
-    caption: "Another clean sample post layout.",
+    caption: "beautiful nature 2.",
     likes: "532 likes",
     time: "Yesterday",
     image:
