@@ -1,83 +1,121 @@
+import React from "react";
 import {
-  Alert,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
   View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Pressable,
+  Alert,
 } from "react-native";
+
+const STORIES = [
+  { id: "1", name: "Your story" },
+  { id: "2", name: "barok6bee" },
+  { id: "3", name: "tsietiopia397" },
+  { id: "4", name: "asa_sait" },
+];
+
+const POSTS = [
+  {
+    id: "1",
+    username: "user_name",
+    caption: "This is a sample caption for the post.",
+    likes: "1,234 likes",
+  },
+  {
+    id: "2",
+    username: "another_user",
+    caption: "Another post caption. Keeping it simple.",
+    likes: "842 likes",
+  },
+];
 
 export default function Index() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safe}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Instagram</Text>
-        <View style={styles.headerIcons}>
-          <Text style={styles.icon}>♡</Text>
-          <Text style={styles.icon}>✉️</Text>
+
+        <View style={styles.headerRight}>
+          <Text style={styles.headerIcon}>♡</Text>
+          <Text style={styles.headerIcon}>✉️</Text>
         </View>
+      </View>
+
+      {/* Stories */}
+      <View style={styles.storiesContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {STORIES.map((story) => (
+            <View key={story.id} style={styles.storyItem}>
+              <View style={styles.storyCircle} />
+              <Text style={styles.storyText}>{story.name}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
 
       {/* Feed */}
-      <ScrollView
-        contentContainerStyle={styles.feed}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Post 1 */}
-        <View style={styles.card}>
-          <View style={styles.cardTop}>
-            <View style={styles.avatar} />
-            <Text style={styles.username}>user_name</Text>
+      <ScrollView contentContainerStyle={styles.feed} showsVerticalScrollIndicator={false}>
+        {POSTS.map((post) => (
+          <View key={post.id} style={styles.card}>
+            {/* Top row */}
+            <View style={styles.topRow}>
+              <View style={styles.avatar} />
+              <Text style={styles.username}>{post.username}</Text>
+            </View>
+
+            {/* Image placeholder */}
+            <View style={styles.imagePlaceholder} />
+
+            {/* Actions row */}
+            <View style={styles.actionsRow}>
+              <View style={styles.actionsLeft}>
+                <Text style={styles.actionIcon}>♡</Text>
+                <Text style={styles.actionIcon}>💬</Text>
+                <Text style={styles.actionIcon}>✈️</Text>
+              </View>
+              <Text style={styles.actionIcon}>🔖</Text>
+            </View>
+
+            {/* Likes */}
+            <Text style={styles.likes}>{post.likes}</Text>
+
+            {/* Caption */}
+            <Text style={styles.caption}>
+              <Text style={styles.captionUser}>{post.username} </Text>
+              {post.caption}
+            </Text>
           </View>
+        ))}
 
-          <View style={styles.imagePlaceholder} />
-
-          <Text style={styles.caption}>
-            <Text style={styles.username}>user_name </Text>
-            This is a sample caption for the post.
-          </Text>
-        </View>
-
-        {/* Post 2 */}
-        <View style={styles.card}>
-          <View style={styles.cardTop}>
-            <View style={styles.avatar} />
-            <Text style={styles.username}>another_user</Text>
-          </View>
-
-          <View style={[styles.imagePlaceholder, { height: 240 }]} />
-
-          <Text style={styles.caption}>
-            <Text style={styles.username}>another_user </Text>
-            Another post caption. Keeping it simple.
-          </Text>
-        </View>
+        {/* Space so the last post isn't hidden behind the button */}
+        <View style={{ height: 120 }} />
       </ScrollView>
 
-      {/* Footer Button */}
-      <View style={styles.footer}>
+      {/* Bottom Alert Button */}
+      <View style={styles.bottomBar}>
         <Pressable
-          style={styles.alertBtn}
+          style={styles.alertButton}
           onPress={() => Alert.alert("Alert Button pressed")}
         >
-          <Text style={styles.alertBtnText}>Alert</Text>
+          <Text style={styles.alertText}>Alert</Text>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safe: {
     flex: 1,
     backgroundColor: "#fff",
   },
 
   header: {
-    paddingTop: 56,
+    height: 56,
     paddingHorizontal: 16,
-    paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     flexDirection: "row",
@@ -85,81 +123,127 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "700",
   },
-  headerIcons: {
+  headerRight: {
     flexDirection: "row",
-    gap: 14,
     alignItems: "center",
+    gap: 14,
   },
-  icon: {
+  headerIcon: {
     fontSize: 18,
   },
 
+  storiesContainer: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    paddingLeft: 10,
+  },
+  storyItem: {
+    alignItems: "center",
+    marginHorizontal: 8,
+    width: 70,
+  },
+  storyCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: "#ddd",
+    marginBottom: 4,
+  },
+  storyText: {
+    fontSize: 12,
+  },
+
   feed: {
-    padding: 16,
-    paddingBottom: 110, // space for footer button
-    gap: 14,
+    padding: 14,
   },
 
   card: {
     backgroundColor: "#fff",
-    borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#e8e8e8",
+    borderColor: "#ededed",
+    borderRadius: 14,
     padding: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 2,
+    marginBottom: 14,
   },
-  cardTop: {
+
+  topRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
     marginBottom: 10,
   },
   avatar: {
-    width: 34,
     height: 34,
+    width: 34,
     borderRadius: 17,
     backgroundColor: "#ddd",
+    marginRight: 10,
   },
   username: {
     fontWeight: "700",
     fontSize: 14,
   },
+
   imagePlaceholder: {
     height: 220,
     backgroundColor: "#dcdcdc",
     borderRadius: 10,
     marginBottom: 10,
   },
-  caption: {
-    color: "#222",
-    lineHeight: 18,
+
+  actionsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 6,
+    marginBottom: 6,
+  },
+  actionsLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  actionIcon: {
+    fontSize: 18,
+    marginRight: 14,
   },
 
-  footer: {
+  likes: {
+    fontWeight: "700",
+    paddingHorizontal: 6,
+    marginBottom: 6,
+  },
+
+  caption: {
+    color: "#222",
+    paddingHorizontal: 6,
+    lineHeight: 18,
+  },
+  captionUser: {
+    fontWeight: "700",
+  },
+
+  bottomBar: {
     position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
-    padding: 16,
-    backgroundColor: "rgba(255,255,255,0.96)",
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    paddingBottom: 14,
+    backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#eee",
   },
-  alertBtn: {
-    height: 48,
-    borderRadius: 12,
+  alertButton: {
     backgroundColor: "#111",
+    borderRadius: 14,
+    paddingVertical: 16,
     alignItems: "center",
-    justifyContent: "center",
   },
-  alertBtnText: {
+  alertText: {
     color: "#fff",
     fontWeight: "700",
     fontSize: 16,
