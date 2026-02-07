@@ -1,19 +1,18 @@
-import React from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
+  Alert,
+  Pressable,
   SafeAreaView,
   ScrollView,
-  Pressable,
-  Alert,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 
 const STORIES = [
   { id: "1", name: "Your story" },
-  { id: "2", name: "barok6bee" },
-  { id: "3", name: "tsietiopia397" },
-  { id: "4", name: "asa_sait" },
+  { id: "2", name: "your_name0" },
+  { id: "3", name: "your_name1" },
+  { id: "4", name: "your_name2" },
 ];
 
 const POSTS = [
@@ -57,7 +56,10 @@ export default function Index() {
       </View>
 
       {/* Feed */}
-      <ScrollView contentContainerStyle={styles.feed} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.feed}
+        showsVerticalScrollIndicator={false}
+      >
         {POSTS.map((post) => (
           <View key={post.id} style={styles.card}>
             {/* Top row */}
@@ -72,11 +74,11 @@ export default function Index() {
             {/* Actions row */}
             <View style={styles.actionsRow}>
               <View style={styles.actionsLeft}>
-                <Text style={styles.actionIcon}>♡</Text>
-                <Text style={styles.actionIcon}>💬</Text>
-                <Text style={styles.actionIcon}>✈️</Text>
+                <Text style={styles.actionIcon}>like</Text>
+                <Text style={styles.actionIcon}>comment</Text>
+                <Text style={styles.actionIcon}> share </Text>
               </View>
-              <Text style={styles.actionIcon}>🔖</Text>
+              <Text style={styles.actionIcon}>share</Text>
             </View>
 
             {/* Likes */}
