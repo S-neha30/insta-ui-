@@ -3,292 +3,330 @@ import {
   View,
   Text,
   StyleSheet,
+  SafeAreaView,
   ScrollView,
   Pressable,
   Alert,
-  SafeAreaView,
-  StatusBar,
+  Image,
 } from "react-native";
 
-const stories = ["Your story", "your_name0", "your_name1", "your_name2"];
+const STORIES = [
+  { id: "1", name: "Your story" },
+  { id: "2", name: "your_name0" },
+  { id: "3", name: "your_name1" },
+  { id: "4", name: "your_name2" },
+];
+
+const POSTS = [
+  {
+    id: "1",
+    username: "user_name",
+    caption: "This is a sample caption for the post.",
+    likes: "1,234 likes",
+    time: "2 hours ago",
+    image: "https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp",
+  },
+  {
+    id: "2",
+    username: "another_user",
+    caption: "Another clean sample post layout.",
+    likes: "532 likes",
+    time: "Yesterday",
+    image:
+      "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_hybrid&w=740&q=80",
+  },
+];
 
 export default function Index() {
   return (
-    <SafeAreaView style={styles.screen}>
-      <StatusBar barStyle="dark-content" />
-
-      {/* Top tiny title (optional) */}
-      <Text style={styles.topTitle}>index</Text>
-
+    <SafeAreaView style={styles.safe}>
       {/* Header */}
       <View style={styles.header}>
+        <Text style={styles.headerLeft}>+</Text>
+
         <Text style={styles.headerTitle}>Instagram</Text>
 
-        <View style={styles.headerIcons}>
-          <Text style={[styles.icon, { marginRight: 14 }]}>♡</Text>
-          <Text style={styles.icon}>✉</Text>
+        <View style={styles.headerRight}>
+          <Text style={styles.headerIcon}>❤️</Text>
+          <Text style={styles.headerIcon}>✉️</Text>
         </View>
       </View>
 
-      {/* Feed */}
-      <ScrollView style={styles.feed} showsVerticalScrollIndicator={false}>
-        {/* Stories */}
-        <View style={styles.storiesRow}>
-          {stories.map((name) => (
-            <View key={name} style={styles.story}>
-              <View style={styles.storyCircle} />
+      {/* Stories */}
+      <View style={styles.storiesContainer}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {STORIES.map((story) => (
+            <View key={story.id} style={styles.storyItem}>
+              <View style={styles.storyRing}>
+                <View style={styles.storyCircle} />
+
+                {story.id === "1" && (
+                  <View style={styles.storyPlus}>
+                    <Text style={styles.storyPlusText}>+</Text>
+                  </View>
+                )}
+              </View>
+
               <Text style={styles.storyText} numberOfLines={1}>
-                {name}
+                {story.name}
               </Text>
             </View>
           ))}
-        </View>
+        </ScrollView>
+      </View>
 
-        {/* Post 1 */}
-        <View style={styles.postCard}>
-          <View style={styles.postHeader}>
-            <View style={styles.smallCircle} />
-            <Text style={styles.userName}>user_name</Text>
-            <View style={{ flex: 1 }} />
-            <Text style={styles.more}>⋯</Text>
+      {/* Feed */}
+      <ScrollView
+        contentContainerStyle={styles.feed}
+        showsVerticalScrollIndicator={false}
+      >
+        {POSTS.map((post) => (
+          <View key={post.id} style={styles.card}>
+            {/* Top row */}
+            <View style={styles.topRow}>
+              <View style={styles.topLeft}>
+                <View style={styles.avatar} />
+                <Text style={styles.username}>{post.username}</Text>
+              </View>
+
+              <Text style={styles.more}>⋯</Text>
+            </View>
+
+            {/* Post Image */}
+            <Image source={{ uri: post.image }} style={styles.postImage} />
+
+            {/* Actions row */}
+            <View style={styles.actionsRow}>
+              <View style={styles.actionsLeft}>
+                <Text style={styles.actionIcon}>❤️</Text>
+                <Text style={styles.actionIcon}>💬</Text>
+                <Text style={styles.actionIcon}>🔁</Text>
+              </View>
+
+              <Text style={styles.actionIcon}>⭐</Text>
+            </View>
+
+            {/* Likes */}
+            <Text style={styles.likes}>{post.likes}</Text>
+
+            {/* Caption */}
+            <Text style={styles.caption}>
+              <Text style={styles.captionUser}>{post.username} </Text>
+              {post.caption}
+            </Text>
+
+            {/* Time */}
+            <Text style={styles.time}>{post.time}</Text>
           </View>
+        ))}
 
-          <View style={styles.postImage} />
-
-          <View style={styles.actionsRow}>
-            <Text style={[styles.action, { marginRight: 24 }]}>like</Text>
-            <Text style={[styles.action, { marginRight: 24 }]}>comment</Text>
-            <Text style={styles.action}>share</Text>
-            <View style={{ flex: 1 }} />
-            <Text style={styles.actionMuted}>save</Text>
-          </View>
-
-          <Text style={styles.likes}>1,234 likes</Text>
-
-          <Text style={styles.caption}>
-            <Text style={styles.bold}>user_name </Text>
-            This is a sample caption for the post.
-          </Text>
-
-          <Text style={styles.time}>2 hours ago</Text>
-        </View>
-
-        {/* Post 2 */}
-        <View style={styles.postCard}>
-          <View style={styles.postHeader}>
-            <View style={styles.smallCircle} />
-            <Text style={styles.userName}>another_user</Text>
-            <View style={{ flex: 1 }} />
-            <Text style={styles.more}>⋯</Text>
-          </View>
-
-          <View style={[styles.postImage, { height: 220 }]} />
-
-          <View style={styles.actionsRow}>
-            <Text style={[styles.action, { marginRight: 24 }]}>like</Text>
-            <Text style={[styles.action, { marginRight: 24 }]}>comment</Text>
-            <Text style={styles.action}>share</Text>
-          </View>
-
-          <Text style={styles.likes}>532 likes</Text>
-
-          <Text style={styles.caption}>
-            <Text style={styles.bold}>another_user </Text>
-            Another clean sample post layout.
-          </Text>
-
-          <Text style={styles.time}>Yesterday</Text>
-        </View>
-
-        {/* Space so button doesn't cover content */}
+        {/* Space so last content isn't hidden behind the button */}
         <View style={{ height: 120 }} />
       </ScrollView>
 
       {/* Bottom Alert Button */}
-      <Pressable
-        style={styles.alertBtn}
-        onPress={() => Alert.alert("Alert", "Alert Button pressed")}
-      >
-        <Text style={styles.alertText}>Alert</Text>
-      </Pressable>
+      <View style={styles.bottomBar}>
+        <Pressable
+          style={styles.alertButton}
+          onPress={() => Alert.alert("Alert Button pressed")}
+        >
+          <Text style={styles.alertText}>Alert</Text>
+        </Pressable>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  screen: {
+  safe: {
     flex: 1,
-    backgroundColor: "#f5f5f7", // soft light background
+    backgroundColor: "#fff",
   },
 
-  topTitle: {
-    textAlign: "center",
-    marginTop: 10,
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#111",
-  },
-
+  /* Header */
   header: {
+    height: 56,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#e9e9ee",
-    backgroundColor: "#fff",
   },
-
+  headerLeft: {
+    fontSize: 24,
+    width: 28,
+  },
   headerTitle: {
-    fontSize: 26,
-    fontWeight: "900",
-    color: "#111",
+    fontSize: 22,
+    fontWeight: "700",
   },
-
-  headerIcons: {
+  headerRight: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 14,
+  },
+  headerIcon: {
+    fontSize: 18,
   },
 
-  icon: {
-    fontSize: 20,
-    color: "#111",
-  },
-
-  feed: {
-    flex: 1,
-  },
-
-  storiesRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 14,
+  /* Stories */
+  storiesContainer: {
+    paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#e9e9ee",
-    backgroundColor: "#fff",
+    borderBottomColor: "#eee",
+    paddingLeft: 10,
   },
-
-  story: {
+  storyItem: {
     alignItems: "center",
-    width: 78,
+    marginHorizontal: 8,
+    width: 76,
   },
-
+  storyRing: {
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    borderWidth: 3,
+    borderColor: "#ff2d55",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 6,
+  },
   storyCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#d7d7db",
-    marginBottom: 8,
-    borderWidth: 3, // subtle ring
-    borderColor: "#ffffff",
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    backgroundColor: "#ddd",
   },
-
+  storyPlus: {
+    position: "absolute",
+    right: -2,
+    bottom: -2,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: "#2f80ed",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderColor: "#fff",
+  },
+  storyPlusText: {
+    color: "#fff",
+    fontWeight: "700",
+    lineHeight: 18,
+  },
   storyText: {
     fontSize: 12,
-    color: "#333",
+    color: "#222",
   },
 
-  postCard: {
-    marginHorizontal: 14,
-    marginTop: 14,
+  /* Feed */
+  feed: {
     padding: 14,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#ececf2",
+  },
+  card: {
     backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ededed",
+    borderRadius: 14,
+    padding: 12,
+    marginBottom: 14,
   },
 
-  postHeader: {
+  topRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 10,
   },
-
-  smallCircle: {
-    width: 34,
+  topLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  avatar: {
     height: 34,
+    width: 34,
     borderRadius: 17,
-    backgroundColor: "#d7d7db",
+    backgroundColor: "#ddd",
     marginRight: 10,
   },
-
-  userName: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: "#111",
+  username: {
+    fontWeight: "700",
+    fontSize: 14,
   },
-
   more: {
     fontSize: 22,
-    color: "#777",
+    color: "#666",
     paddingHorizontal: 6,
   },
 
   postImage: {
-    height: 260,
-    borderRadius: 12,
-    backgroundColor: "#d7d7db",
-    marginBottom: 12,
+    height: 220,
+    borderRadius: 10,
+    marginBottom: 10,
+    backgroundColor: "#dcdcdc",
   },
 
   actionsRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    justifyContent: "space-between",
+    paddingHorizontal: 6,
+    marginBottom: 6,
   },
-
-  action: {
-    fontSize: 15,
-    color: "#111",
-    fontWeight: "600",
+  actionsLeft: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-
-  actionMuted: {
-    fontSize: 15,
-    color: "#666",
-    fontWeight: "600",
+  actionIcon: {
+    fontSize: 18,
+    marginRight: 14,
   },
 
   likes: {
-    fontSize: 14,
-    fontWeight: "800",
+    fontWeight: "700",
+    paddingHorizontal: 6,
     marginBottom: 6,
-    color: "#111",
   },
 
   caption: {
-    fontSize: 14,
     color: "#222",
-    marginBottom: 8,
+    paddingHorizontal: 6,
+    lineHeight: 18,
   },
-
-  bold: {
-    fontWeight: "900",
-    color: "#111",
+  captionUser: {
+    fontWeight: "700",
   },
-
   time: {
-    fontSize: 12,
     color: "#777",
+    fontSize: 12,
+    paddingHorizontal: 6,
+    marginTop: 6,
   },
 
-  alertBtn: {
+  /* Bottom button */
+  bottomBar: {
     position: "absolute",
-    left: 16,
-    right: 16,
-    bottom: 18,
-    backgroundColor: "#111", // clean black
-    paddingVertical: 16,
-    borderRadius: 22,
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#111",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: 14,
+    paddingTop: 10,
+    paddingBottom: 14,
+    backgroundColor: "#fff",
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
   },
-
+  alertButton: {
+    backgroundColor: "#111",
+    borderRadius: 14,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
   alertText: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "900",
+    fontWeight: "700",
+    fontSize: 16,
   },
 });
